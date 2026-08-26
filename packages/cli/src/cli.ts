@@ -9,6 +9,7 @@ import {
   runScan,
   writeReport,
 } from './scan'
+import { runReport } from './report'
 
 export const EXIT_OK = 0
 export const EXIT_FINDINGS = 1
@@ -65,6 +66,18 @@ export async function main(argv: string[], streams: Streams): Promise<number> {
       for (const reason of outcome.reasons) streams.err(`FAIL  ${reason}`)
 
       exitCode = outcome.exitCode
+    })
+
+  program
+    .command('report')
+    .description('Render a report.json into one self-contained HTML file.')
+    .argument('<reportJson>', 'path to a report.json produced by scan')
+    .requiredOption('-o, --out <path>', 'where to write the HTML report')
+    .action(async (reportJson: string, options: { out: string }) => {
+      const written = await runReport({ reportPath: reportJson, outPath: options.out })
+      streams.out(
+        `Wrote ${written.outPath} (${Math.round(written.bytes / 1024)} KB, self-contained)`,
+      )
     })
 
   try {

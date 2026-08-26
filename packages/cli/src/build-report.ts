@@ -21,9 +21,16 @@ export function buildReport(input: {
   const { config, catalog, scans, findings, silenceWarning } = input
   const keys = classifyKeys(catalog, scans)
 
-  const namespaces = new Set<string>()
+  // Distinct KeyIds per namespace, across every locale. The viewer sizes its
+  // treemap by this and cannot recompute it from findings alone.
+  const keysByNamespace = new Map<string, Set<string>>()
   for (const messages of Object.values(catalog)) {
-    for (const keyId of Object.keys(messages)) namespaces.add(parseKeyId(keyId).namespace)
+    for (const keyId of Object.keys(messages)) {
+      const { namespace } = parseKeyId(keyId)
+      const declared = keysByNamespace.get(namespace) ?? new Set<string>()
+      declared.add(keyId)
+      keysByNamespace.set(namespace, declared)
+    }
   }
 
   const findingsByKind = {
@@ -38,7 +45,7 @@ export function buildReport(input: {
     config,
     summary: {
       totals: {
-        namespaces: namespaces.size,
+        namespaces: keysByNamespace.size,
         locales: Object.keys(catalog).length,
         keys: keys.total,
         files: scans.length,
@@ -54,6 +61,9 @@ export function buildReport(input: {
         fogPct: share(keys.fogAlive.length, keys.total),
         unattributedPct: share(keys.wideningAlive.length, keys.total),
       },
+      namespaces: [...keysByNamespace]
+        .map(([name, declared]) => ({ name, keys: declared.size }))
+        .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0)),
       files: {
         total: scans.length,
         withBindings: scans.filter((scan) => scan.namespaces.length > 0).length,

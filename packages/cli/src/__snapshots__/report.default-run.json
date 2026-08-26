@@ -38,6 +38,20 @@
       "unattributed": 2,
       "withDynamicPatterns": 1
     },
+    "namespaces": [
+      {
+        "name": "admin",
+        "keys": 2
+      },
+      {
+        "name": "checkout",
+        "keys": 6
+      },
+      {
+        "name": "common",
+        "keys": 6
+      }
+    ],
     "silenceWarning": false
   },
   "findings": [

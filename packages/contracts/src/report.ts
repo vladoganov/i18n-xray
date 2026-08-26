@@ -66,6 +66,18 @@ export const KeyCoverageSchema = z.strictObject({
   unattributedPct: percent,
 })
 
+/**
+ * Per-namespace declared-key counts. The viewer sizes its treemap tiles by this
+ * and can derive nothing equivalent from `findings` or `fileScans`: a namespace
+ * with no findings would otherwise be invisible, and `fileScans.keys` records
+ * keys *used*, not keys declared. Added in Stage 5, which is the first consumer.
+ */
+export const NamespaceSummarySchema = z.strictObject({
+  name: z.string(),
+  /** Distinct KeyIds declared under this namespace, across all locales. */
+  keys: count,
+})
+
 /** EXPECTED.md §H's file-level rows, kept as secondary diagnostics. */
 export const FileCoverageSchema = z.strictObject({
   total: count,
@@ -90,6 +102,7 @@ export const SummarySchema = z.strictObject({
   }),
   keys: KeyCoverageSchema,
   files: FileCoverageSchema,
+  namespaces: z.array(NamespaceSummarySchema),
   /** Constitution rule 3: t() calls found, zero hook bindings repo-wide. */
   silenceWarning: z.boolean(),
 })
@@ -115,6 +128,7 @@ export type Finding = z.infer<typeof FindingSchema>
 export type FileScan = z.infer<typeof FileScanSchema>
 export type KeyCoverage = z.infer<typeof KeyCoverageSchema>
 export type FileCoverage = z.infer<typeof FileCoverageSchema>
+export type NamespaceSummary = z.infer<typeof NamespaceSummarySchema>
 export type Summary = z.infer<typeof SummarySchema>
 export type ScanConfig = z.infer<typeof ScanConfigSchema>
 export type Report = z.infer<typeof ReportSchema>

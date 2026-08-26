@@ -4,3 +4,6 @@ dist
 *.tsbuildinfo
 .DS_Store
 .idea
+
+# Locally generated reports (never committed)
+.local/
