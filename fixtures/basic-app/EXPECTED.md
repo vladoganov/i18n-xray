@@ -231,6 +231,34 @@ does not invent the formulas.
 | KeyIds alive **only** via fog or unattributed widening | 6 | 4 |
 | Dead keys | 1 | 2 |
 
+### Resolved formulas — ratified 2026-08-26, implemented in Stage 4
+
+The denominator for both percentages is **distinct KeyIds** (14 here). Every declared key lands in
+exactly one bucket, by this priority — first match wins:
+
+| Bucket | Wins when | Default | Wrapper |
+| --- | --- | --- | --- |
+| `verified` | a file with a real binding names the key literally | 7 | 8 |
+| `fogAlive` | otherwise, a bound file's dynamic pattern covers it | 2 | 2 |
+| `wideningAlive` | otherwise, an `unattributed` file's widening reaches it | 4 | 2 |
+| `dead` | nothing claims it | 1 | 2 |
+| | **total** | **14** | **14** |
+
+- `fog % = fogAlive / distinct KeyIds` — 14.3% in both runs.
+- `unattributed % = wideningAlive / distinct KeyIds` — 28.6% default, 14.3% wrapper.
+- Stage 6's ~50% check is their **sum**: 42.9% default, 28.6% wrapper.
+
+`fogAlive + wideningAlive` reproduces the "alive only via fog or unattributed widening" row above
+(6 and 4), which is how this partition reconciles with the counts it was derived from.
+
+One case the fixture does not exercise: an `unattributed` file's *dynamic patterns* count as
+`wideningAlive`, not `fogAlive` — when the namespace itself is unknown, that is the deeper
+blindness. No unattributed file here carries a pattern.
+
+All four bucket counts are recorded in `report.json` under `summary.keys`, so the partition is
+auditable rather than taken on trust. The file-level rows above are carried alongside under
+`summary.files` as secondary diagnostics.
+
 ---
 
 ## I. Case → row index

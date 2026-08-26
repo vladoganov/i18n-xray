@@ -8,7 +8,7 @@
     "node": ">=20"
   },
   "bin": {
-    "i18n-xray": "./dist/index.js"
+    "i18n-xray": "./dist/cli.js"
   },
   "files": [
     "dist"
@@ -19,13 +19,15 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "commander": "catalog:",
+    "fast-glob": "catalog:"
+  },
+  "devDependencies": {
     "@i18n-xray/contracts": "workspace:*",
     "@i18n-xray/core": "workspace:*",
     "@i18n-xray/loader": "workspace:*",
     "@i18n-xray/scanner": "workspace:*",
-    "@i18n-xray/viewer": "workspace:*"
-  },
-  "devDependencies": {
+    "@i18n-xray/viewer": "workspace:*",
     "@types/node": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",

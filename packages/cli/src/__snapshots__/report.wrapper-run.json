@@ -1,0 +1,166 @@
+{
+  "config": {
+    "srcDir": "src",
+    "localesDir": "locales",
+    "hooks": [
+      "useTranslation",
+      "useAppTranslation"
+    ],
+    "localesPattern": "{locale}/{ns}.json",
+    "maxNamespacesPerFile": 1,
+    "failOn": []
+  },
+  "summary": {
+    "totals": {
+      "namespaces": 3,
+      "locales": 2,
+      "keys": 14,
+      "files": 7,
+      "findings": 5,
+      "findingsByKind": {
+        "dead-key": 2,
+        "value-duplicate": 1,
+        "locale-gap": 1,
+        "convention": 1
+      }
+    },
+    "keys": {
+      "total": 14,
+      "verified": 8,
+      "fogAlive": 2,
+      "wideningAlive": 2,
+      "dead": 2,
+      "fogPct": 14.3,
+      "unattributedPct": 14.3
+    },
+    "files": {
+      "total": 7,
+      "withBindings": 5,
+      "unattributed": 1,
+      "withDynamicPatterns": 1
+    },
+    "silenceWarning": false
+  },
+  "findings": [
+    {
+      "kind": "dead-key",
+      "key": "common:legacy.tooltip",
+      "locales": [
+        "en",
+        "pl"
+      ]
+    },
+    {
+      "kind": "dead-key",
+      "key": "common:panel.heading",
+      "locales": [
+        "en",
+        "pl"
+      ]
+    },
+    {
+      "kind": "value-duplicate",
+      "value": "Cancel",
+      "keys": [
+        "checkout:buttons.cancel",
+        "common:actions.cancel"
+      ],
+      "locale": "en"
+    },
+    {
+      "kind": "locale-gap",
+      "key": "common:beta.badge",
+      "presentIn": [
+        "en"
+      ],
+      "missingIn": [
+        "pl"
+      ]
+    },
+    {
+      "kind": "convention",
+      "file": "src/CheckoutSummary.tsx",
+      "namespaces": [
+        "common",
+        "checkout"
+      ]
+    }
+  ],
+  "fileScans": [
+    {
+      "file": "src/AdminPanel.tsx",
+      "namespaces": [
+        "admin"
+      ],
+      "keys": [
+        "panel.heading"
+      ],
+      "dynamicPatterns": [],
+      "unattributed": false
+    },
+    {
+      "file": "src/App.tsx",
+      "namespaces": [
+        "common"
+      ],
+      "keys": [
+        "beta.badge",
+        "actions.cancel",
+        "cta.save"
+      ],
+      "dynamicPatterns": [],
+      "unattributed": false
+    },
+    {
+      "file": "src/CheckoutForm.tsx",
+      "namespaces": [
+        "checkout"
+      ],
+      "keys": [
+        "buttons.cancel"
+      ],
+      "dynamicPatterns": [],
+      "unattributed": false
+    },
+    {
+      "file": "src/CheckoutSummary.tsx",
+      "namespaces": [
+        "common",
+        "checkout"
+      ],
+      "keys": [
+        "title",
+        "totals.grandTotal"
+      ],
+      "dynamicPatterns": [],
+      "unattributed": false
+    },
+    {
+      "file": "src/ErrorBanner.tsx",
+      "namespaces": [
+        "checkout"
+      ],
+      "keys": [],
+      "dynamicPatterns": [
+        "errors.*"
+      ],
+      "unattributed": false
+    },
+    {
+      "file": "src/PriceLabel.tsx",
+      "namespaces": [],
+      "keys": [
+        "price.label"
+      ],
+      "dynamicPatterns": [],
+      "unattributed": true
+    },
+    {
+      "file": "src/useAppTranslation.ts",
+      "namespaces": [],
+      "keys": [],
+      "dynamicPatterns": [],
+      "unattributed": false
+    }
+  ]
+}
