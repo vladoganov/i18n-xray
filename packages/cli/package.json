@@ -26,6 +26,7 @@
     "@i18n-xray/viewer": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

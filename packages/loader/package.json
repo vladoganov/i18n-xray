@@ -14,9 +14,12 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@i18n-xray/contracts": "workspace:*"
+    "@i18n-xray/contracts": "workspace:*",
+    "@i18n-xray/core": "workspace:*",
+    "fast-glob": "catalog:"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }
