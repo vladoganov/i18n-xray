@@ -1,0 +1,18 @@
+{
+  "title": "Acme Store",
+  "cta": {
+    "save": "Save"
+  },
+  "actions": {
+    "cancel": "Cancel"
+  },
+  "beta": {
+    "badge": "Beta"
+  },
+  "legacy": {
+    "tooltip": "Click to expand the legacy panel"
+  },
+  "panel": {
+    "heading": "Panel"
+  }
+}

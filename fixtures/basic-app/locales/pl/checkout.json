@@ -1,0 +1,16 @@
+{
+  "title": "Podsumowanie zamówienia",
+  "buttons": {
+    "cancel": "Zrezygnuj"
+  },
+  "totals": {
+    "grandTotal": "Suma całkowita"
+  },
+  "errors": {
+    "declined": "Twoja karta została odrzucona.",
+    "expired": "Twoja karta wygasła."
+  },
+  "price": {
+    "label": "Cena"
+  }
+}

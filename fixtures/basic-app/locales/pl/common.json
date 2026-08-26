@@ -1,0 +1,15 @@
+{
+  "title": "Sklep Acme",
+  "cta": {
+    "save": "Zapisz"
+  },
+  "actions": {
+    "cancel": "Anuluj"
+  },
+  "legacy": {
+    "tooltip": "Kliknij, aby rozwinąć stary panel"
+  },
+  "panel": {
+    "heading": "Panel"
+  }
+}

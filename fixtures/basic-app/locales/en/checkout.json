@@ -1,0 +1,16 @@
+{
+  "title": "Order summary",
+  "buttons": {
+    "cancel": "Cancel"
+  },
+  "totals": {
+    "grandTotal": "Grand total"
+  },
+  "errors": {
+    "declined": "Your card was declined.",
+    "expired": "Your card has expired."
+  },
+  "price": {
+    "label": "Price"
+  }
+}

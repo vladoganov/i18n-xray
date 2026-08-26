@@ -59,7 +59,7 @@ type FileScan = {
 }
 ```
 
-Attribution rule: every key in `FileScan.keys` counts as used in every namespace in `FileScan.namespaces`. Dynamic patterns fog their matching subtree within the file's bound namespaces. `unattributed: true` fogs all namespaces (maximally conservative in v1).
+Attribution rule: every key in `FileScan.keys` counts as used in every namespace in `FileScan.namespaces`. Dynamic patterns fog their matching subtree within the file's bound namespaces. `unattributed: true` widens the file's namespace set to ALL namespaces: its keys and dynamic patterns attribute repo-wide. Keys the file never mentions are unaffected. (Widening can only keep keys alive, never kill.).
 
 ## CLI contract (target shape, built in Stage 4)
 
