@@ -46,7 +46,7 @@ fixtures/
 type KeyId = string            // "ns:a.b.c" — namespace-prefixed, flattened
 type Finding =
   | { kind: 'dead-key';        key: KeyId; locales: string[] }
-  | { kind: 'value-duplicate'; value: string; keys: KeyId[]; locale: string }  // same text in >1 namespace — headline finding
+  | { kind: 'value-duplicate'; value: string; keys: KeyId[]; locale: string }  // same text in >1 namespace — headline finding; same-namespace repeats are NOT findings (A2)
   | { kind: 'locale-gap';      key: KeyId; presentIn: string[]; missingIn: string[] }
   | { kind: 'convention';      file: string; namespaces: string[] }            // binds > maxNamespacesPerFile
 
@@ -59,7 +59,7 @@ type FileScan = {
 }
 ```
 
-Attribution rule: every key in `FileScan.keys` counts as used in every namespace in `FileScan.namespaces`. Dynamic patterns fog their matching subtree within the file's bound namespaces. `unattributed: true` widens the file's namespace set to ALL namespaces: its keys and dynamic patterns attribute repo-wide. Keys the file never mentions are unaffected. (Widening can only keep keys alive, never kill.).
+Attribution rule: every key in `FileScan.keys` counts as used in every namespace in `FileScan.namespaces`. Dynamic patterns fog their matching subtree within the file's bound namespaces. `unattributed: true` widens the file's namespace set to ALL namespaces: its keys and dynamic patterns attribute repo-wide. Keys the file never mentions are unaffected. (Widening can only keep keys alive, never kill — decision A1(b), fixtures/basic-app/EXPECTED.md §A1.)
 
 ## CLI contract (target shape, built in Stage 4)
 

@@ -37,14 +37,14 @@ Create `fixtures/basic-app/`: a fake React app (`src/`) + locale files (`locales
 ## Stage 3 — Loader + scanner (adapters)
 
 - `loader`: glob `localesDir` using the locales pattern (default `{locale}/{ns}.json`), flatten nested JSON to `KeyId`s.
-- `scanner`: per-file regex extraction into `FileScan` — hook bindings (configurable names), `t('...')` literals, template-literal fog patterns, unattributed detection (`t(` calls with zero bindings in file).
+- `scanner`: per-file regex extraction into `FileScan` — hook bindings (configurable names), `t('...')` literals, template-literal fog patterns, unattributed detection (`t(` calls with zero bindings in file). Cheap prefilter allowed: a file mentioning no configured hook name and containing no `t(` call yields an empty FileScan and may be skipped early; this must not change any semantics in EXPECTED.md.
 - Integration test: loader + scanner + core against `fixtures/basic-app`; assert the complete findings list equals EXPECTED.md exactly (no extra, no missing).
 - **Gate:** integration test green; then deliberately break one fixture case (e.g. reference the dead key) and confirm the test fails — mutation sanity check — then revert.
 
 ## Stage 4 — CLI + report.json
 
 - `i18n-xray scan` per the CLI contract in CLAUDE.md. Emits `report.json` validated against the `contracts` Zod schema (findings + FileScans + summary: totals, fog %, unattributed %).
-- Silence warning per Constitution rule 3, including non-zero exit when `--fail-on` covers it.
+- Silence warning per Constitution rule 3: implement and test against the four-row matrix in fixtures/basic-app/EXPECTED.md §G — including that a single binding file (`--hook useAppTranslation` alone) must NOT warn; the warning is a zero-bindings check, never a threshold. Non-zero exit when `--fail-on` covers it.
 - Exit codes: 0 clean, 1 when `--fail-on` kinds present or on silence warning under fail mode, 2 on usage/config errors.
 - **Gate:** snapshot test of `report.json` on the fixture; schema validation inside the test; exit codes asserted for pass, fail-on, and silence cases; `pnpm --filter cli build` produces a runnable `npx` binary tested against the fixture.
 
@@ -74,8 +74,9 @@ The usefulness gate. Output contains proprietary strings — the report, HTML, a
 ## Roadmap (do NOT implement — README content only)
 
 1. Near-duplicate detection (fuzzy, then AI-assisted semantic matching)
-2. Module-graph port + webpack `stats.json` adapter → zombie-usage findings (keys referenced only from unreachable code)
-3. Per-component tree view: components with bound namespace + keys; cross-namespace binding rendered as a smell; `maxNamespacesPerFile` as enforced convention
-4. Route → namespace manifest (fixes fetch-all namespace loading)
-5. ESLint plugin: local rules (unknown key, foreign-namespace usage) over the same core
-6. AST scanner (ts-morph): resolve statically-computable dynamic keys via TypeScript union types
+2. Component graph (locked design, decided 2026-08): flat nodes (the existing FileScans) + RENDER edges extracted from JSX usage (import edges only as fallback). DAG, not tree — shared components have multiple renderers and that is the featured case, not an edge case. Conditional renders = "may render" edges; injected/render-prop components = "unplaced" bucket. The tree is a VIEW: the DAG unfolded from configurable root(s), shared nodes duplicated visually. Payoff beyond visualization: render-edge context narrows unattributed fog — a t-as-prop component attributes to the union of its renderers' namespaces instead of all namespaces. Findings get sharper, still never guessed. Also unlocks zombie-usage findings via webpack `stats.json` adapter (keys referenced only from unreachable code).
+3. Per-component tree view in the viewer, built on item 2: components with bound namespace + keys; cross-namespace binding rendered as a smell; `maxNamespacesPerFile` as enforced convention. Fixture cases pre-designed: shared node, conditional render, injected component.
+4. Import-based hook detection + wrapper auto-discovery: follow imports from `react-i18next` to find wrapper hooks automatically; replaces `--hook` configuration. Needs light AST.
+5. Route → namespace manifest (fixes fetch-all namespace loading)
+6. ESLint plugin: local rules (unknown key, foreign-namespace usage) over the same core
+7. AST scanner (ts-morph): resolve statically-computable dynamic keys via TypeScript union types

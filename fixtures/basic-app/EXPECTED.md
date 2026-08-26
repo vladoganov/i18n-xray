@@ -8,10 +8,12 @@ Findings are treated as a **set**; this table does not specify ordering.
 
 ---
 
-## A. Decisions this table encodes — please confirm before Stage 2
+## A. Decisions this table encodes — ratified 2026-08-26
 
-Three rules had to be pinned down to make the table computable. Two are derivations, one is an
-addition. If any is wrong, the table changes and I should redo it before analysis code is written.
+Three rules had to be pinned down to make the table computable: two derivations and one addition.
+All three were reviewed and ratified — A1 as reading (b), A2 confirmed, A3 kept. A4 and A5 record
+limits of the fixture rather than decisions. Stages 2–4 implement these as given; changing one means
+changing this table first.
 
 ### A1. `unattributed: true` fogs the file's *keys* across all namespaces — not the whole world
 
@@ -48,7 +50,7 @@ I added one stale key, `common:panel.heading`, to make the difference observable
 keeps it alive by fog, the correctly configured run exposes it as dead. It also demonstrates the
 direction of the error — fixing hook config finds *more* dead keys, it never resurrects one.
 
-**Cut this row if you consider it out of scope**; nothing else depends on it.
+**Confirmed on review: row 9 stays.** Nothing else depends on it.
 
 ### A4. JSON cannot carry comments
 
@@ -57,9 +59,9 @@ impossible — a `"_comment"` key would itself be scanned and reported dead. The
 `.tsx` file that binds the owning namespace (`App.tsx` for all three) plus this table. Flagging in
 case you want a different arrangement.
 
-### A5. `useTranslation(variable)` alongside `t('key')` calls is a known-uncovered pattern
+### A5. `useTranslation(someVariable)` alongside `t('key')` calls — known-uncovered, not an oversight
 
-A file that binds through a non-literal namespace and calls `t()` itself yields no binding for the scanner to read, so it falls under A1 unchanged — `namespaces: []`, `unattributed: true`, keys widened across all namespaces. Not planted in this fixture: `src/useAppTranslation.ts` is the non-literal half without any `t()` call (hence `unattributed: false`, row C1), and no fixture file combines the two.
+A file whose namespace arrives as a variable offers no string literal to bind, so if it also calls `t('key')` itself it falls under exactly the same rule as `t`-as-prop (case 6, `src/PriceLabel.tsx`): `namespaces: []`, `unattributed: true`, widening per the attribution rule in CLAUDE.md. Deliberately not a fixture case — `src/useAppTranslation.ts` is the non-literal half with no `t()` call of its own (hence `unattributed: false`, row C1), and no fixture file combines the two.
 
 ---
 
