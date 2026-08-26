@@ -148,11 +148,13 @@ One row changes:
 | # | Case | Finding |
 | --- | --- | --- |
 | 1 | 1 — dead key | `{ kind: 'dead-key', key: 'common:legacy.tooltip', locales: ['en','pl'] }` |
-| 2 | 2 — value duplicate | `{ kind: 'value-duplicate', value: 'Cancel', keys: ['common:actions.cancel','checkout:buttons.cancel'], locale: 'en' }` |
+| 2 | 2 — value duplicate | `{ kind: 'value-duplicate', value: 'Cancel', keys: ['checkout:buttons.cancel','common:actions.cancel'], locale: 'en' }` |
 | 3 | 3 — locale gap | `{ kind: 'locale-gap', key: 'common:beta.badge', presentIn: ['en'], missingIn: ['pl'] }` |
 | 4 | 8 — convention | `{ kind: 'convention', file: 'src/CheckoutSummary.tsx', namespaces: ['common','checkout'] }` |
 
 **Exactly four findings.** `locales` on a dead key lists the locales the key is declared in.
+Multi-key arrays inside a finding (`keys`, `locales`, `presentIn`, `missingIn`) are sorted;
+`convention.namespaces` is the exception and keeps the scan's own binding order.
 
 ## E. Expected findings — wrapper run
 
