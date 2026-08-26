@@ -1,0 +1,33 @@
+{
+  "name": "i18n-xray",
+  "version": "0.0.1",
+  "type": "module",
+  "license": "MIT",
+  "description": "X-ray for your i18n: static analysis of i18next-style translation usage in React codebases.",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "i18n-xray": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@i18n-xray/contracts": "workspace:*",
+    "@i18n-xray/core": "workspace:*",
+    "@i18n-xray/loader": "workspace:*",
+    "@i18n-xray/scanner": "workspace:*",
+    "@i18n-xray/viewer": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

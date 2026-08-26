@@ -67,7 +67,7 @@ The usefulness gate. Output contains proprietary strings — the report, HTML, a
 
 ## Stage 7 — Ship
 
-- README: origin story → prior art (`i18n-doctor`, `i18n-unused`; extraction tools like `i18next-parser`/`i18next-scanner` as a different category) → why this exists anyway (learning + the structural/visual layer) → quickstart (`npx i18n-xray scan`) → findings reference → roadmap incl. the component-tree mockup.
+- README: origin story (i18n pain from a large production codebase — no company names) → prior art (`i18n-doctor`, `i18n-unused`; extraction tools like `i18next-parser`/`i18next-scanner` as a different category) → why this exists anyway (learning + the structural/visual layer) → quickstart (`npx i18n-xray scan`) → findings reference → roadmap incl. the component-tree mockup.
 - Publish pipeline: tag push → CI → test + build → `npm publish --provenance` of the `i18n-xray` package (replacing the 0.0.1 placeholder).
 - **Gate:** from a clean machine/container: `npx i18n-xray scan` works against the fixture; npm page renders correctly; provenance badge visible.
 
