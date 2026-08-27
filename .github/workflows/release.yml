@@ -21,7 +21,12 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          registry-url: https://registry.npmjs.org
+
+      # Node 20 ships npm 10, which predates OIDC trusted publishing (needs >= 11.5.1).
+      - name: Upgrade npm for trusted publishing
+        run: |
+          npm install -g npm@latest
+          npm --version
 
       - run: pnpm install --frozen-lockfile
 
@@ -46,7 +51,7 @@ jobs:
         working-directory: packages/cli
         run: pnpm pack --pack-destination "$RUNNER_TEMP"
 
-      - name: Publish to npm with provenance
-        run: npm publish "$RUNNER_TEMP"/i18n-xray-*.tgz --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # Authenticates via OIDC against the trusted publisher configured on npm;
+      # no token, and provenance is attached automatically.
+      - name: Publish to npm
+        run: npm publish "$RUNNER_TEMP"/i18n-xray-*.tgz --access public
