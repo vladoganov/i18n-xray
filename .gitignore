@@ -7,3 +7,10 @@ dist
 
 # Locally generated reports (never committed)
 .local/
+
+# Copied in by the cli prepack script so the npm page renders; never committed.
+packages/cli/README.md
+packages/cli/LICENSE
+
+# Pack output
+*.tgz
